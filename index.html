@@ -19,19 +19,36 @@
         z-index: 0;
         letter-spacing: 1px;
     }
+
+  #title {
+    display: flex; 
+    align-items: center;
+  }
+
+  #logos {
+    margin-left: auto
+  }
 </style>
 
 <body>
-    <div><h1>Welcome to My ITCR-funded Web Tool</h1></div>
+    <div id="title">
+        <div><h1>Welcome to My ITCR-funded Web Tool</h1></div>
+        <div id="logos">
+            <a href="https://ndexbio.org"><img src="./poweredbyNDEx.png" height=48px></a>
+            <a href="https://cytoscape.org"><img src="./cytoscape3-logo-small.png" height=48px></a>
+        </div>
+    </div>
     <div id="cy"></div>
     <script>
         fetchJSON('./ITCR Connectivity Map.cx', convertCX, 'cy');
     </script>
-    <div  style='text-align:center'>
-    Click on a button to select and display a network. <br>
-    <button onClick='fetchJSON("./ITCR Connectivity Map.cx", convertCX, "cy")'>Network 1</button>
-    <button onClick='fetchJSON("./Expert-identified drugs and reagents that modulate SARS-CoV-2 interactors (ST4).cx", convertCX, "cy")'>Network 2</button>
-    <button onClick='fetchJSON("./EV_network.cx", convertCX, "cy")'>Network 3</button>
+    <div style='text-align:center'>
+        Click on a button to select and display a network. <br>
+        <button onClick='fetchJSON("./ITCR Connectivity Map.cx", convertCX, "cy")'>Network 1</button>
+        <button
+            onClick='fetchJSON("./Expert-identified drugs and reagents that modulate SARS-CoV-2 interactors (ST4).cx", convertCX, "cy")'>Network
+            2</button>
+        <button onClick='fetchJSON("./EV_network.cx", convertCX, "cy")'>Network 3</button>
     </div>
 </body>
 

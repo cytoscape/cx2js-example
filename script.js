@@ -1,20 +1,38 @@
-function fetchJSON(file, callback, elementId) {
-    fetch(file)
+
+// Here, we initialize a fetch for the passed URL. 
+// If the request is successful, take the returned JSON 
+// and pass it to our convertCX function to convert it to
+// Cytoscape.js data and display it in the HTML element 
+// with the passed ID.
+function fetchJSON(url, elementId) {
+    fetch(url)
         .then(function (response) {
             return response.json();
         })
-        .then(function (cx) { callback(cx, elementId) })
+        .then(function (cx) { convertCX(cx, elementId) })
 };
 
+//
 const convertCX = function (cx, elementId) {
+    //Find the HTML element with the passed ID.
     const element = document.getElementById(elementId);
 
-    const utils = new cytoscapeCx2js.CyNetworkUtils()
+    //Load the network utilities and translate CX to the niceCX
+    //format required for cx2js.
+    const utils = new cytoscapeCx2js.CyNetworkUtils();
     const niceCX = utils.rawCXtoNiceCX(cx);
+    
+    //Load the cx2js converter. The network utilities instance is passed
+    //along to do necessary conversions.
     const cx2Js = new cytoscapeCx2js.CxToJs(utils);
 
+    //Create a mutable attributeNameMap. 
+    //cx2js can extract different types of data from cx and this map 
+    //is used to keep track of attributes whose conversion has already 
+    //been performed.
     let attributeNameMap = {};
 
+    //Convert the necessary Cytoscape.js parameters from the niceCX data. 
     const elements = cx2Js.cyElementsFromNiceCX(niceCX, attributeNameMap);
     const style = cx2Js.cyStyleFromNiceCX(niceCX, attributeNameMap);
     const cyBackgroundColor = cx2Js.cyBackgroundColorFromNiceCX(niceCX);
@@ -24,6 +42,7 @@ const convertCX = function (cx, elementId) {
 
     element.style.backgroundColor = cyBackgroundColor;
 
+    //Create the Cytoscape.js parameters
     const cytoscapeJS = {
         container: element,
         style: style,
@@ -33,6 +52,9 @@ const convertCX = function (cx, elementId) {
         pan: pan
     };
 
+    //Initialize Cytoscape.js using our parameters.
     const cy = cytoscape(cytoscapeJS);
+
+    //Automatically fit the contents of the graph to the enclosing HTML element.
     cy.fit()
 };

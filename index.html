@@ -4,12 +4,24 @@
 
 <head>
     <title>CX to JS in a webpage</title>
+    <!-- 
+        Import the cx2js converter and Cytoscape.js packages from unpkg
+    -->
     <script src="https://unpkg.com/cytoscape-cx2js@0.6.4/build/bundle.js"></script>
     <script src="https://unpkg.com/cytoscape@3.6.0/dist/cytoscape.min.js"></script>
+    
+    
+    <!--
+        Import our own code. This contains a fetchJSON function we have 
+        written that fetches, converts and displays our default CX data.
+    -->
     <script src="./script.js"></script>
 </head>
 
 <style>
+    /*
+    Default styling for the Cytoscape.js component.
+    */
     #cy {
         background-color: white;
         width: 100%;
@@ -20,35 +32,44 @@
         letter-spacing: 1px;
     }
 
-  #title {
-    display: flex; 
-    align-items: center;
-  }
+    #title {
+        display: flex;
+        align-items: center;
+    }
 
-  #logos {
-    margin-left: auto
-  }
+    #logos {
+        margin-left: auto
+    }
 </style>
 
 <body>
     <div id="title">
-        <div><h1>Welcome to My ITCR-funded Web Tool</h1></div>
+        <div>
+            <h1>Welcome to My ITCR-funded Web Tool</h1>
+        </div>
         <div id="logos">
             <a href="https://ndexbio.org"><img src="./poweredbyNDEx.png" height=48px></a>
             <a href="https://cytoscape.org"><img src="./cytoscape3-logo-small.png" height=48px></a>
         </div>
     </div>
+
+    <!--
+    This is the Cytoscape.js component. The id "cy" is used to get this 
+    component from the HTML document and pass it programatically to Cytoscape.js
+    -->
     <div id="cy"></div>
+
+
     <script>
-        fetchJSON('./ITCR Connectivity Map.cx', convertCX, 'cy');
+        //This calls the fetchJSON function to fetch, convert and display our default CX data in the "cy" component.
+        fetchJSON('./ITCR Connectivity Map.cx', 'cy');
     </script>
     <div style='text-align:center'>
         Click on a button to select and display a network. <br>
-        <button onClick='fetchJSON("./ITCR Connectivity Map.cx", convertCX, "cy")'>Network 1</button>
-        <button
-            onClick='fetchJSON("./Expert-identified drugs and reagents that modulate SARS-CoV-2 interactors (ST4).cx", convertCX, "cy")'>Network
-            2</button>
-        <button onClick='fetchJSON("./EV_network.cx", convertCX, "cy")'>Network 3</button>
+        <!-- Each button below calls the fetchJSON function to fetch, convert and display CX data in the "cy component". -->
+        <button onClick='fetchJSON("./ITCR Connectivity Map.cx", "cy")'>Network 1</button>
+        <button onClick='fetchJSON("./Expert-identified drugs and reagents that modulate SARS-CoV-2 interactors (ST4).cx", "cy")'>Network 2</button>
+        <button onClick='fetchJSON("./EV_network.cx", "cy")'>Network 3</button>
     </div>
 </body>
 
